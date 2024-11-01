@@ -1,0 +1,13 @@
+{
+  "transaction_id": 133,
+  "transaction_datetime": "2024-10-31",
+  "merchant": "APPLE",
+  "category": "electronics",
+  "amount": "154.00",
+  "latitude": "48.88780",
+  "longitude": "-118.21050",
+  "merchant_latitude": "49.15905",
+  "merchant_longitude": "-118.18646",
+  "currency": "USD",
+  "user_id": 101
+}

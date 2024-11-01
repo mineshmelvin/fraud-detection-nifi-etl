@@ -5,9 +5,19 @@ WITH REPLICATION = {'class': 'SimpleStrategy', 'replication_factor': 1};
 USE fraud_detection;
 
 CREATE TABLE IF NOT EXISTS transactions (
-    id UUID PRIMARY KEY,
-    user_id INT,
+    transaction_id INT PRIMARY KEY,
+    transaction_datetime TIMESTAMP,
+    merchant TEXT,
+    category TEXT,
     amount DECIMAL,
-    transaction_date TIMESTAMP,
-    status TEXT
+    latitude DECIMAL,
+    longitude DECIMAL,
+    merchant_latitude DECIMAL,
+    merchant_longitude DECIMAL,
+    is_fraud INT,
+    currency TEXT,
+    user_id INT
 );
+
+COPY fraud_detection.transactions (transaction_id,transaction_datetime,merchant,category,amount,latitude,longitude,merchant_latitude,merchant_longitude,is_fraud,currency,user_id
+) FROM '/home/new_credit_card_fraud.csv' WITH HEADER = TRUE;

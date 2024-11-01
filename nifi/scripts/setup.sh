@@ -10,4 +10,4 @@ fi
 ln -sf /opt/nifi/nifi-current/conf/nifi.properties /opt/nifi/nifi-current/properties
 
 echo "NiFi setup complete. Starting NiFi..."
-exec /opt/nifi/nifi-current/bin/nifi.sh run
+exec /opt/nifi/nifi-current/bin/nifi.sh start

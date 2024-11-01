@@ -104,13 +104,21 @@ Docker Compose for orchestrating these services.
 ###### Directory Structure:
 
 etl-fraud-detection/
+
 ├── Dockerfile
+
 ├── docker-compose.yml
+
 ├── nifi/           # Contains NiFi-specific flows and configs
+
 ├── kafka/          # Contains Kafka topics and consumer/producer scripts
+
 ├── spark/          # Spark job scripts
+
 ├── db/             # Database schema setup scripts
+
 ├── scripts/        # Utility scripts for ETL jobs and data transformations
+
 └── README.md
 
 ##### 2. Dockerizing the Components
