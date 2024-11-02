@@ -3,6 +3,7 @@ services:
   postgres:
     build:
       context: ./postgres
+    container_name: postgres
     ports:
       - "5432:5432"
     environment:
@@ -11,16 +12,22 @@ services:
       - POSTGRES_PASSWORD=adminpassword
     volumes:
       - postgres_data:/var/lib/postgres/data
-    env_file:
-      - ./postgres/postgres.env
+#    env_file:
+#      - ./postgres/postgres.env
     networks:
       - fraud_detection_net
 
   cassandra:
-    build: ./cassandra
+    image: bitnami/cassandra:latest
     container_name: cassandra
+    environment:
+      - CASSANDRA_ENABLE_REMOTE_CONNECTIONS=true
     ports:
       - "9042:9042"
+    volumes:
+      - ./cassandra/new_credit_card_fraud.csv:/home/new_credit_card_fraud.csv
+      - ./cassandra/init.cql:/home/init.cql
+#      - ./cassandra/init.cql:/docker-entrypoint-initdb.d/init.cql
     networks:
       - fraud_detection_net
 
@@ -73,16 +80,16 @@ services:
     ports:
       - 8080:8080
       - 8443:8443
-#    environment:
-##      - NIFI_WEB_HOST:"localhost"
-#      - SINGLE_USER_CREDENTIALS_USERNAME:admin
-#      - SINGLE_USER_CREDENTIALS_PASSWORD:password
-#      - NIFI_REMOTE_INPUT_HOST:"nifi"
-#      - 8443:8443
-#    depends_on:
-#      - postgres
-#      - kafka
-#      - cassandra
+    environment:
+      SMTP_HOSTNAME: smtp.gmail.com
+      SMTP_PORT: 587
+      SMTP_USERNAME: mineshmelvin@gmail.com
+      # Password Generated from google account
+      SMTP_PASSWORD: xdeh tqde sttc htdk
+    depends_on:
+      - postgres
+      - kafka
+      - cassandra
     networks:
       - fraud_detection_net
 
@@ -108,9 +115,39 @@ services:
     ports:
       - "3000:3000"
     environment:
-      - GF_INSTALL_PLUGINS=vertamedia-cassandra-datasource  # Auto-install Cassandra plugin
+      - GF_INSTALL_PLUGINS=hadesarchitect-cassandra-datasource  # Ensure the plugin name is correct
+    volumes:
+      - ./grafana/dashboards:/var/lib/grafana/dashboards
+      - ./grafana/provisioning:/etc/grafana/provisioning
+#    depends_on:
+#      - cassandra
+    networks:
+      - fraud_detection_net
+
+  flask-app:
+    image: python:3.9-slim
+    volumes:
+      - ./frontend:/app
+    working_dir: /app
+    environment:
+      - FLASK_ENV=development
+      - FLASK_APP=app.py
+    command: >
+      /bin/sh -c "
+      apt-get update &&
+      apt-get install -y libpq-dev gcc &&
+      pip install -r requirements.txt &&
+      flask run --host=0.0.0.0 --port=5000
+      "
+    ports:
+      - "5000:5000"
     depends_on:
+      - postgres
+      - kafka
+      - nifi
       - cassandra
+      - spark
+      - grafana
     networks:
       - fraud_detection_net
 

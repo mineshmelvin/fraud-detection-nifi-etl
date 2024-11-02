@@ -1,0 +1,22 @@
+apiVersion: 1
+
+datasources:
+- name: hadesarchitect-cassandra-datasource
+  type: hadesarchitect-cassandra-datasource
+  access: proxy
+  orgId: 1
+  uid: ce2noexze95vke
+  url: cassandra:9042
+  id: 1
+  typeName: Apache Cassandra
+  typeLogoUrl: public/plugins/hadesarchitect-cassandra-datasource/img/cassandra.svg
+#  user: "cassandra"
+#  database: ""
+  basicAuth: false
+  isDefault: true
+  jsonData:
+    consistency: ONE
+    keyspace: fraud_detection
+    user: cassandra
+  secureJsonData:
+    password: cassandra

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fraud Transaction Simulator</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        .container { display: flex; }
+        .form-section { margin: 20px; padding: 20px; border: 1px solid #ccc; }
+    </style>
+</head>
+<body>
+<h1>Fraud Transaction Simulator</h1>
+<div class="container">
+    <div class="form-section">
+        <h2>Add User</h2>
+        <form id="userForm">
+            <label for="username">Username:</label><br>
+            <input type="text" id="username" name="username" required><br>
+            <label for="email">Email:</label><br>
+            <input type="email" id="email" name="email" required><br><br>
+            <label for="phone">Phone:</label><br>
+            <input type="text" id="phone" name="phone" required><br><br>
+            <label for="address">Address:</label><br>
+            <input type="text" id="address" name="address"><br><br>
+            <label for="city">City:</label><br>
+            <input type="text" id="city" name="city"><br><br>
+            <label for="state">State:</label><br>
+            <input type="text" id="state" name="state"><br><br>
+            <label for="country">Country:</label><br>
+            <input type="text" id="country" name="country"><br><br>
+            <label for="postal_code">Postal Code:</label><br>
+            <input type="number" id="postal_code" name="postal_code"><br><br>
+            <label for="dob">Date of Birth:</label><br>
+            <input type="date" id="dob" name="dob"><br><br>
+            <label for="profile_picture_url">Profile Picture URL:</label><br>
+            <input type="text" id="profile_picture_url" name="profile_picture_url"><br><br>
+            <input type="submit" value="Add User">
+        </form>
+        <div id="userResponseMessage"></div> <!-- Div to show user response -->
+    </div>
+    <div class="form-section">
+        <h2>Make a Transaction</h2>
+        <form id="transactionForm">
+            <label for="user_id">User ID:</label><br>
+            <input type="number" id="user_id" name="user_id" required><br>
+            <label for="merchant">Merchant Name:</label><br>
+            <input type="text" id="merchant" name="merchant" required><br>
+            <label for="category">Merchant Category:</label><br>
+            <input type="text" id="category" name="category" required><br>
+            <label for="amount">Amount:</label><br>
+            <input type="number" step="0.1" id="amount" name="amount" required><br>
+            <label for="latitude">User Latitude:</label><br>
+            <input type="number" id="latitude" name="latitude" required><br>
+            <label for="longitude">User Longitude:</label><br>
+            <input type="number" id="longitude" name="longitude" required><br>
+            <label for="currency">Currency:</label><br>
+            <input type="text" id="currency" name="currency" required><br>
+            <input type="submit" value="Add Transaction">
+        </form>
+        <div id="transactionResponseMessage"></div> <!-- Div to show transaction response -->
+    </div>
+</div>
+
+<script>
+    // Handle user form submission
+    document.getElementById("userForm").addEventListener("submit", async function(event) {
+        event.preventDefault(); // Prevent default form submission
+
+        const formData = new FormData(event.target);
+        const data = {};
+        formData.forEach((value, key) => { data[key] = value; });
+
+        try {
+            const response = await fetch("/add_user", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(data)
+            });
+
+            const result = await response.json();
+            document.getElementById("userResponseMessage").innerHTML = `
+                <p>${result.message || "User added successfully!"}</p>
+                ${result.user_id ? `<p>User ID: ${result.user_id}</p>` : `<p>Error: ${result.error || "User ID is undefined"}</p>`}
+                <pre>${JSON.stringify(result, null, 2)}</pre>
+            `;
+        } catch (error) {
+            document.getElementById("userResponseMessage").innerHTML = "<p>Error adding user. Please try again.</p>";
+        }
+    });
+
+    // Handle transaction form submission
+    document.getElementById("transactionForm").addEventListener("submit", async function(event) {
+        event.preventDefault(); // Prevent default form submission
+
+        const formData = new FormData(event.target);
+        const data = {};
+        formData.forEach((value, key) => { data[key] = value; });
+
+        try {
+            const response = await fetch("/add_transaction", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(data)
+            });
+
+            const result = await response.json();
+            document.getElementById("transactionResponseMessage").innerHTML = `
+                <p>${result.message || "Transaction added successfully!"}</p>
+                ${result.transaction_id ? `<p>Transaction ID: ${result.transaction_id}</p>` : `<p>Error: ${result.error || "Transaction ID is undefined"}</p>`}
+                <pre>${JSON.stringify(result, null, 2)}</pre>
+            `;
+            //document.getElementById("transactionResponseMessage").innerHTML = `<p>${result.message || "Transaction added successfully!"}</p>`;
+        } catch (error) {
+            document.getElementById("transactionResponseMessage").innerHTML = "<p>Error adding transaction. Please try again.</p>";
+        }
+    });
+</script>
+</body>
+</html>

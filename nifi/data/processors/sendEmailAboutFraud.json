@@ -1,0 +1,600 @@
+{
+  "flowContents": {
+    "identifier": "dc3b7c52-3462-3561-92d6-f8acdebac4cf",
+    "instanceIdentifier": "ec64213b-0192-1000-5b95-467c81bd5cf5",
+    "name": "sendEmailAboutFraud",
+    "comments": "",
+    "position": {
+      "x": 488.0,
+      "y": 352.0
+    },
+    "processGroups": [],
+    "remoteProcessGroups": [],
+    "processors": [
+      {
+        "identifier": "caf354cb-dc84-3bad-a90c-93caf5ac610d",
+        "instanceIdentifier": "ec69e272-0192-1000-7a8a-6c4b12847f66",
+        "name": "PutEmail",
+        "comments": "",
+        "position": {
+          "x": 1184.0,
+          "y": 152.0
+        },
+        "type": "org.apache.nifi.processors.standard.PutEmail",
+        "bundle": {
+          "group": "org.apache.nifi",
+          "artifact": "nifi-standard-nar",
+          "version": "1.28.0"
+        },
+        "properties": {
+          "CC": null,
+          "SMTP Socket Factory": "javax.net.ssl.SSLSocketFactory",
+          "BCC": null,
+          "Message": "We have detected a fraudulent transaction!\n\n${json_content}",
+          "Attach File": "false",
+          "attribute-name-regex": null,
+          "input-character-set": "UTF-8",
+          "SMTP Port": "${SMTP_PORT}",
+          "SMTP Auth": "true",
+          "From": "${SMTP_USERNAME}",
+          "Include All Attributes In Message": "false",
+          "SMTP Hostname": "${SMTP_HOSTNAME}",
+          "Subject": "Fraud Alert - Message from NiFi",
+          "SMTP X-Mailer Header": "NiFi",
+          "oauth2-access-token-provider": null,
+          "Content Type": "text/plain",
+          "SMTP Username": "${SMTP_USERNAME}",
+          "SMTP Password": "${SMTP_PASSWORD}",
+          "To": "${email}",
+          "email-ff-content-as-message": "false",
+          "authorization-mode": "password-based-authorization-mode",
+          "SMTP TLS": "true"
+        },
+        "propertyDescriptors": {
+          "CC": {
+            "name": "CC",
+            "displayName": "CC",
+            "identifiesControllerService": false,
+            "sensitive": false
+          },
+          "SMTP Socket Factory": {
+            "name": "SMTP Socket Factory",
+            "displayName": "SMTP Socket Factory",
+            "identifiesControllerService": false,
+            "sensitive": false
+          },
+          "BCC": {
+            "name": "BCC",
+            "displayName": "BCC",
+            "identifiesControllerService": false,
+            "sensitive": false
+          },
+          "Message": {
+            "name": "Message",
+            "displayName": "Message",
+            "identifiesControllerService": false,
+            "sensitive": false
+          },
+          "Attach File": {
+            "name": "Attach File",
+            "displayName": "Attach File",
+            "identifiesControllerService": false,
+            "sensitive": false
+          },
+          "attribute-name-regex": {
+            "name": "attribute-name-regex",
+            "displayName": "Attributes to Send as Headers (Regex)",
+            "identifiesControllerService": false,
+            "sensitive": false
+          },
+          "input-character-set": {
+            "name": "input-character-set",
+            "displayName": "Input Character Set",
+            "identifiesControllerService": false,
+            "sensitive": false
+          },
+          "SMTP Port": {
+            "name": "SMTP Port",
+            "displayName": "SMTP Port",
+            "identifiesControllerService": false,
+            "sensitive": false
+          },
+          "SMTP Auth": {
+            "name": "SMTP Auth",
+            "displayName": "SMTP Auth",
+            "identifiesControllerService": false,
+            "sensitive": false
+          },
+          "From": {
+            "name": "From",
+            "displayName": "From",
+            "identifiesControllerService": false,
+            "sensitive": false
+          },
+          "Include All Attributes In Message": {
+            "name": "Include All Attributes In Message",
+            "displayName": "Include All Attributes In Message",
+            "identifiesControllerService": false,
+            "sensitive": false
+          },
+          "SMTP Hostname": {
+            "name": "SMTP Hostname",
+            "displayName": "SMTP Hostname",
+            "identifiesControllerService": false,
+            "sensitive": false
+          },
+          "Subject": {
+            "name": "Subject",
+            "displayName": "Subject",
+            "identifiesControllerService": false,
+            "sensitive": false
+          },
+          "SMTP X-Mailer Header": {
+            "name": "SMTP X-Mailer Header",
+            "displayName": "SMTP X-Mailer Header",
+            "identifiesControllerService": false,
+            "sensitive": false
+          },
+          "oauth2-access-token-provider": {
+            "name": "oauth2-access-token-provider",
+            "displayName": "OAuth2 Access Token Provider",
+            "identifiesControllerService": true,
+            "sensitive": false
+          },
+          "Content Type": {
+            "name": "Content Type",
+            "displayName": "Content Type",
+            "identifiesControllerService": false,
+            "sensitive": false
+          },
+          "SMTP Username": {
+            "name": "SMTP Username",
+            "displayName": "SMTP Username",
+            "identifiesControllerService": false,
+            "sensitive": false
+          },
+          "To": {
+            "name": "To",
+            "displayName": "To",
+            "identifiesControllerService": false,
+            "sensitive": false
+          },
+          "SMTP Password": {
+            "name": "SMTP Password",
+            "displayName": "SMTP Password",
+            "identifiesControllerService": false,
+            "sensitive": true
+          },
+          "email-ff-content-as-message": {
+            "name": "email-ff-content-as-message",
+            "displayName": "Flow file content as message",
+            "identifiesControllerService": false,
+            "sensitive": false
+          },
+          "authorization-mode": {
+            "name": "authorization-mode",
+            "displayName": "Authorization Mode",
+            "identifiesControllerService": false,
+            "sensitive": false
+          },
+          "SMTP TLS": {
+            "name": "SMTP TLS",
+            "displayName": "SMTP STARTTLS",
+            "identifiesControllerService": false,
+            "sensitive": false
+          }
+        },
+        "style": {},
+        "schedulingPeriod": "0 sec",
+        "schedulingStrategy": "TIMER_DRIVEN",
+        "executionNode": "ALL",
+        "penaltyDuration": "30 sec",
+        "yieldDuration": "1 sec",
+        "bulletinLevel": "WARN",
+        "runDurationMillis": 0,
+        "concurrentlySchedulableTaskCount": 1,
+        "autoTerminatedRelationships": [
+          "success",
+          "failure"
+        ],
+        "scheduledState": "ENABLED",
+        "retryCount": 10,
+        "retriedRelationships": [],
+        "backoffMechanism": "PENALIZE_FLOWFILE",
+        "maxBackoffPeriod": "10 mins",
+        "componentType": "PROCESSOR",
+        "groupIdentifier": "dc3b7c52-3462-3561-92d6-f8acdebac4cf"
+      },
+      {
+        "identifier": "8bf85b1f-696f-353a-b826-9782a7f9cff6",
+        "instanceIdentifier": "ec666452-0192-1000-6a01-65fafffac625",
+        "name": "EvaluateJsonPath",
+        "comments": "",
+        "position": {
+          "x": 744.0,
+          "y": 152.0
+        },
+        "type": "org.apache.nifi.processors.standard.EvaluateJsonPath",
+        "bundle": {
+          "group": "org.apache.nifi",
+          "artifact": "nifi-standard-nar",
+          "version": "1.28.0"
+        },
+        "properties": {
+          "Destination": "flowfile-attribute",
+          "Max String Length": "20 MB",
+          "Return Type": "auto-detect",
+          "Null Value Representation": "empty string",
+          "email": "$.email",
+          "Path Not Found Behavior": "ignore"
+        },
+        "propertyDescriptors": {
+          "Destination": {
+            "name": "Destination",
+            "displayName": "Destination",
+            "identifiesControllerService": false,
+            "sensitive": false
+          },
+          "Max String Length": {
+            "name": "Max String Length",
+            "displayName": "Max String Length",
+            "identifiesControllerService": false,
+            "sensitive": false
+          },
+          "Return Type": {
+            "name": "Return Type",
+            "displayName": "Return Type",
+            "identifiesControllerService": false,
+            "sensitive": false
+          },
+          "Null Value Representation": {
+            "name": "Null Value Representation",
+            "displayName": "Null Value Representation",
+            "identifiesControllerService": false,
+            "sensitive": false
+          },
+          "email": {
+            "name": "email",
+            "displayName": "email",
+            "identifiesControllerService": false,
+            "sensitive": false
+          },
+          "Path Not Found Behavior": {
+            "name": "Path Not Found Behavior",
+            "displayName": "Path Not Found Behavior",
+            "identifiesControllerService": false,
+            "sensitive": false
+          }
+        },
+        "style": {},
+        "schedulingPeriod": "0 sec",
+        "schedulingStrategy": "TIMER_DRIVEN",
+        "executionNode": "ALL",
+        "penaltyDuration": "30 sec",
+        "yieldDuration": "1 sec",
+        "bulletinLevel": "WARN",
+        "runDurationMillis": 0,
+        "concurrentlySchedulableTaskCount": 1,
+        "autoTerminatedRelationships": [
+          "failure",
+          "unmatched"
+        ],
+        "scheduledState": "ENABLED",
+        "retryCount": 10,
+        "retriedRelationships": [],
+        "backoffMechanism": "PENALIZE_FLOWFILE",
+        "maxBackoffPeriod": "10 mins",
+        "componentType": "PROCESSOR",
+        "groupIdentifier": "dc3b7c52-3462-3561-92d6-f8acdebac4cf"
+      },
+      {
+        "identifier": "8ac2c43c-c376-3584-9723-e2f037988ef9",
+        "instanceIdentifier": "ec64afb6-0192-1000-8dfb-b184c39c654f",
+        "name": "ConsumeKafka_2_0",
+        "comments": "",
+        "position": {
+          "x": 321.0000029517388,
+          "y": 148.00000382529095
+        },
+        "type": "org.apache.nifi.processors.kafka.pubsub.ConsumeKafka_2_0",
+        "bundle": {
+          "group": "org.apache.nifi",
+          "artifact": "nifi-kafka-2-0-nar",
+          "version": "1.28.0"
+        },
+        "properties": {
+          "header-name-regex": null,
+          "sasl.username": null,
+          "max.poll.records": "10000",
+          "group.id": "frauds_alerting",
+          "bootstrap.servers": "172.22.72.148:9092",
+          "aws.profile.name": null,
+          "topic_type": "names",
+          "sasl.kerberos.principal": null,
+          "sasl.kerberos.service.name": null,
+          "security.protocol": "PLAINTEXT",
+          "kerberos-credentials-service": null,
+          "ssl.context.service": null,
+          "max-uncommit-offset-wait": "1 secs",
+          "sasl.mechanism": "GSSAPI",
+          "sasl.token.auth": "false",
+          "sasl.kerberos.keytab": null,
+          "honor-transactions": "true",
+          "Communications Timeout": "60 secs",
+          "topic": "fraud_alerts",
+          "separate-by-key": "false",
+          "message-header-encoding": "UTF-8",
+          "message-demarcator": null,
+          "key-attribute-encoding": "utf-8",
+          "auto.offset.reset": "latest"
+        },
+        "propertyDescriptors": {
+          "header-name-regex": {
+            "name": "header-name-regex",
+            "displayName": "Headers to Add as Attributes (Regex)",
+            "identifiesControllerService": false,
+            "sensitive": false
+          },
+          "group.id": {
+            "name": "group.id",
+            "displayName": "Group ID",
+            "identifiesControllerService": false,
+            "sensitive": false
+          },
+          "bootstrap.servers": {
+            "name": "bootstrap.servers",
+            "displayName": "Kafka Brokers",
+            "identifiesControllerService": false,
+            "sensitive": false
+          },
+          "topic_type": {
+            "name": "topic_type",
+            "displayName": "Topic Name Format",
+            "identifiesControllerService": false,
+            "sensitive": false
+          },
+          "sasl.kerberos.principal": {
+            "name": "sasl.kerberos.principal",
+            "displayName": "Kerberos Principal",
+            "identifiesControllerService": false,
+            "sensitive": false
+          },
+          "sasl.kerberos.service.name": {
+            "name": "sasl.kerberos.service.name",
+            "displayName": "Kerberos Service Name",
+            "identifiesControllerService": false,
+            "sensitive": false
+          },
+          "kerberos-credentials-service": {
+            "name": "kerberos-credentials-service",
+            "displayName": "Kerberos Credentials Service",
+            "identifiesControllerService": true,
+            "sensitive": false
+          },
+          "max-uncommit-offset-wait": {
+            "name": "max-uncommit-offset-wait",
+            "displayName": "Max Uncommitted Time",
+            "identifiesControllerService": false,
+            "sensitive": false
+          },
+          "sasl.mechanism": {
+            "name": "sasl.mechanism",
+            "displayName": "SASL Mechanism",
+            "identifiesControllerService": false,
+            "sensitive": false
+          },
+          "honor-transactions": {
+            "name": "honor-transactions",
+            "displayName": "Honor Transactions",
+            "identifiesControllerService": false,
+            "sensitive": false
+          },
+          "message-header-encoding": {
+            "name": "message-header-encoding",
+            "displayName": "Message Header Encoding",
+            "identifiesControllerService": false,
+            "sensitive": false
+          },
+          "message-demarcator": {
+            "name": "message-demarcator",
+            "displayName": "Message Demarcator",
+            "identifiesControllerService": false,
+            "sensitive": false
+          },
+          "sasl.username": {
+            "name": "sasl.username",
+            "displayName": "Username",
+            "identifiesControllerService": false,
+            "sensitive": false
+          },
+          "max.poll.records": {
+            "name": "max.poll.records",
+            "displayName": "Max Poll Records",
+            "identifiesControllerService": false,
+            "sensitive": false
+          },
+          "aws.profile.name": {
+            "name": "aws.profile.name",
+            "displayName": "AWS Profile Name",
+            "identifiesControllerService": false,
+            "sensitive": false
+          },
+          "security.protocol": {
+            "name": "security.protocol",
+            "displayName": "Security Protocol",
+            "identifiesControllerService": false,
+            "sensitive": false
+          },
+          "ssl.context.service": {
+            "name": "ssl.context.service",
+            "displayName": "SSL Context Service",
+            "identifiesControllerService": true,
+            "sensitive": false
+          },
+          "sasl.token.auth": {
+            "name": "sasl.token.auth",
+            "displayName": "Token Authentication",
+            "identifiesControllerService": false,
+            "sensitive": false
+          },
+          "sasl.kerberos.keytab": {
+            "name": "sasl.kerberos.keytab",
+            "displayName": "Kerberos Keytab",
+            "identifiesControllerService": false,
+            "sensitive": false,
+            "resourceDefinition": {
+              "cardinality": "SINGLE",
+              "resourceTypes": [
+                "FILE"
+              ]
+            }
+          },
+          "Communications Timeout": {
+            "name": "Communications Timeout",
+            "displayName": "Communications Timeout",
+            "identifiesControllerService": false,
+            "sensitive": false
+          },
+          "topic": {
+            "name": "topic",
+            "displayName": "Topic Name(s)",
+            "identifiesControllerService": false,
+            "sensitive": false
+          },
+          "separate-by-key": {
+            "name": "separate-by-key",
+            "displayName": "Separate By Key",
+            "identifiesControllerService": false,
+            "sensitive": false
+          },
+          "sasl.password": {
+            "name": "sasl.password",
+            "displayName": "Password",
+            "identifiesControllerService": false,
+            "sensitive": true
+          },
+          "key-attribute-encoding": {
+            "name": "key-attribute-encoding",
+            "displayName": "Key Attribute Encoding",
+            "identifiesControllerService": false,
+            "sensitive": false
+          },
+          "auto.offset.reset": {
+            "name": "auto.offset.reset",
+            "displayName": "Offset Reset",
+            "identifiesControllerService": false,
+            "sensitive": false
+          }
+        },
+        "style": {},
+        "schedulingPeriod": "0 sec",
+        "schedulingStrategy": "TIMER_DRIVEN",
+        "executionNode": "ALL",
+        "penaltyDuration": "30 sec",
+        "yieldDuration": "1 sec",
+        "bulletinLevel": "WARN",
+        "runDurationMillis": 0,
+        "concurrentlySchedulableTaskCount": 1,
+        "autoTerminatedRelationships": [],
+        "scheduledState": "ENABLED",
+        "retryCount": 10,
+        "retriedRelationships": [],
+        "backoffMechanism": "PENALIZE_FLOWFILE",
+        "maxBackoffPeriod": "10 mins",
+        "componentType": "PROCESSOR",
+        "groupIdentifier": "dc3b7c52-3462-3561-92d6-f8acdebac4cf"
+      }
+    ],
+    "inputPorts": [],
+    "outputPorts": [],
+    "connections": [
+      {
+        "identifier": "82f116fd-2ee0-3bce-9102-96e4a18224b0",
+        "instanceIdentifier": "ec6a87a2-0192-1000-8357-79a1c5636a8d",
+        "name": "",
+        "source": {
+          "id": "8bf85b1f-696f-353a-b826-9782a7f9cff6",
+          "type": "PROCESSOR",
+          "groupId": "dc3b7c52-3462-3561-92d6-f8acdebac4cf",
+          "name": "EvaluateJsonPath",
+          "comments": "",
+          "instanceIdentifier": "ec666452-0192-1000-6a01-65fafffac625"
+        },
+        "destination": {
+          "id": "caf354cb-dc84-3bad-a90c-93caf5ac610d",
+          "type": "PROCESSOR",
+          "groupId": "dc3b7c52-3462-3561-92d6-f8acdebac4cf",
+          "name": "PutEmail",
+          "comments": "",
+          "instanceIdentifier": "ec69e272-0192-1000-7a8a-6c4b12847f66"
+        },
+        "labelIndex": 1,
+        "zIndex": 0,
+        "selectedRelationships": [
+          "matched"
+        ],
+        "backPressureObjectThreshold": 10000,
+        "backPressureDataSizeThreshold": "1 GB",
+        "flowFileExpiration": "0 sec",
+        "prioritizers": [],
+        "bends": [],
+        "loadBalanceStrategy": "DO_NOT_LOAD_BALANCE",
+        "partitioningAttribute": "",
+        "loadBalanceCompression": "DO_NOT_COMPRESS",
+        "componentType": "CONNECTION",
+        "groupIdentifier": "dc3b7c52-3462-3561-92d6-f8acdebac4cf"
+      },
+      {
+        "identifier": "e1729c1c-f613-3499-9399-3728632d686e",
+        "instanceIdentifier": "ec667daa-0192-1000-4359-4500a01cf39a",
+        "name": "",
+        "source": {
+          "id": "8ac2c43c-c376-3584-9723-e2f037988ef9",
+          "type": "PROCESSOR",
+          "groupId": "dc3b7c52-3462-3561-92d6-f8acdebac4cf",
+          "name": "ConsumeKafka_2_0",
+          "comments": "",
+          "instanceIdentifier": "ec64afb6-0192-1000-8dfb-b184c39c654f"
+        },
+        "destination": {
+          "id": "8bf85b1f-696f-353a-b826-9782a7f9cff6",
+          "type": "PROCESSOR",
+          "groupId": "dc3b7c52-3462-3561-92d6-f8acdebac4cf",
+          "name": "EvaluateJsonPath",
+          "comments": "",
+          "instanceIdentifier": "ec666452-0192-1000-6a01-65fafffac625"
+        },
+        "labelIndex": 1,
+        "zIndex": 0,
+        "selectedRelationships": [
+          "success"
+        ],
+        "backPressureObjectThreshold": 10000,
+        "backPressureDataSizeThreshold": "1 GB",
+        "flowFileExpiration": "0 sec",
+        "prioritizers": [],
+        "bends": [],
+        "loadBalanceStrategy": "DO_NOT_LOAD_BALANCE",
+        "partitioningAttribute": "",
+        "loadBalanceCompression": "DO_NOT_COMPRESS",
+        "componentType": "CONNECTION",
+        "groupIdentifier": "dc3b7c52-3462-3561-92d6-f8acdebac4cf"
+      }
+    ],
+    "labels": [],
+    "funnels": [],
+    "controllerServices": [],
+    "variables": {},
+    "defaultFlowFileExpiration": "0 sec",
+    "defaultBackPressureObjectThreshold": 10000,
+    "defaultBackPressureDataSizeThreshold": "1 GB",
+    "componentType": "PROCESS_GROUP",
+    "flowFileConcurrency": "UNBOUNDED",
+    "flowFileOutboundPolicy": "STREAM_WHEN_AVAILABLE"
+  },
+  "externalControllerServices": {},
+  "parameterContexts": {},
+  "flowEncodingVersion": "1.0",
+  "parameterProviders": {},
+  "latest": false
+}

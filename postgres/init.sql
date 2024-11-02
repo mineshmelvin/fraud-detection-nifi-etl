@@ -1,10 +1,10 @@
 CREATE TABLE users (
-    user_id INT NOT NULL PRIMARY KEY,
+    user_id SERIAL PRIMARY KEY,
     username VARCHAR(50) NOT NULL UNIQUE,
     email VARCHAR(100) NOT NULL UNIQUE,
-    phone VARCHAR(15),
+    phone VARCHAR(15) NOT NULL UNIQUE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    last_login TIMESTAMP,
+    last_login TIMESTAMP DEFAULT CURRENT_TIMESTAMP, --should change this
     is_active BOOLEAN DEFAULT TRUE,
     address VARCHAR(255),
     city VARCHAR(100),
@@ -16,8 +16,8 @@ CREATE TABLE users (
 );
 
 CREATE TABLE transactions (
-    transaction_id INT PRIMARY KEY,
-    transaction_datetime DATETIME NOT NULL,
+    transaction_id SERIAL PRIMARY KEY,
+    transaction_datetime DATE NOT NULL,
     merchant VARCHAR(50),
     category VARCHAR(50),
     amount DECIMAL(10, 2) NOT NULL,
@@ -41,43 +41,12 @@ INSERT INTO users (user_id, username, email, phone, last_login, address, city, s
 (109, 'grace_taylor', 'grace.taylor@example.com', '901-234-5678', '2024-10-27 12:45:00', '987 Fir St', 'San Francisco', 'CA', 'USA', '94101', '1998-02-14', 'http://example.com/images/grace_taylor.jpg'),
 (110, 'harry_thomas', 'harry.thomas@example.com', '012-345-6789', '2024-10-30 10:00:00', '135 Willow St', 'Chicago', 'IL', 'USA', '60601', '1984-09-09', 'http://example.com/images/harry_thomas.jpg');
 
-INSERT INTO transactions (user_id, amount, transaction_datetime, status, transaction_type, payment_method, currency, merchant_id, location) VALUES
-(101, 150.00, '2024-10-01 08:45:00', 'completed', 'purchase', 'credit_card', 'USD', 201, 'New York, NY'),
-(102, 89.50, '2024-10-01 09:00:00', 'completed', 'purchase', 'debit_card', 'USD', 202, 'Los Angeles, CA'),
-(103, 220.75, '2024-10-01 09:15:00', 'failed', 'purchase', 'credit_card', 'USD', 203, 'Chicago, IL'),
-(101, 300.00, '2024-10-01 09:30:00', 'completed', 'refund', 'paypal', 'USD', 201, 'New York, NY'),
-(104, 75.25, '2024-10-01 10:00:00', 'completed', 'withdrawal', 'credit_card', 'USD', 204, 'San Francisco, CA'),
-(105, 500.00, '2024-10-01 10:05:00', 'completed', 'purchase', 'credit_card', 'USD', 205, 'Seattle, WA'),
-(102, 125.00, '2024-10-01 10:10:00', 'pending', 'purchase', 'debit_card', 'USD', 202, 'Los Angeles, CA'),
-(106, 450.00, '2024-10-01 10:15:00', 'completed', 'purchase', 'credit_card', 'USD', 206, 'Miami, FL'),
-(107, 39.99, '2024-10-01 10:20:00', 'completed', 'refund', 'paypal', 'USD', 207, 'Houston, TX'),
-(108, 150.00, '2024-10-01 10:30:00', 'failed', 'purchase', 'credit_card', 'USD', 208, 'Philadelphia, PA'),
-(109, 300.50, '2024-10-01 10:35:00', 'completed', 'purchase', 'debit_card', 'USD', 209, 'Austin, TX'),
-(110, 600.00, '2024-10-01 10:40:00', 'completed', 'purchase', 'credit_card', 'USD', 201, 'New York, NY'),
-(111, 10.00, '2024-10-01 10:45:00', 'completed', 'withdrawal', 'paypal', 'USD', 210, 'Denver, CO'),
-(112, 900.00, '2024-10-01 10:50:00', 'failed', 'purchase', 'credit_card', 'USD', 211, 'Atlanta, GA'),
-(101, 120.00, '2024-10-01 11:00:00', 'completed', 'purchase', 'debit_card', 'USD', 201, 'New York, NY'),
-(102, 200.00, '2024-10-01 11:05:00', 'pending', 'purchase', 'credit_card', 'USD', 202, 'Los Angeles, CA'),
-(104, 450.00, '2024-10-01 11:10:00', 'completed', 'refund', 'credit_card', 'USD', 204, 'San Francisco, CA'),
-(106, 850.00, '2024-10-01 11:15:00', 'completed', 'purchase', 'credit_card', 'USD', 206, 'Miami, FL'),
-(103, 123.45, '2024-10-01 11:20:00', 'failed', 'purchase', 'debit_card', 'USD', 203, 'Chicago, IL'),
-(110, 99.99, '2024-10-01 11:25:00', 'completed', 'withdrawal', 'paypal', 'USD', 201, 'New York, NY'),
-(107, 34.99, '2024-10-01 11:30:00', 'completed', 'purchase', 'credit_card', 'USD', 207, 'Houston, TX'),
-(111, 500.50, '2024-10-01 11:35:00', 'pending', 'purchase', 'debit_card', 'USD', 210, 'Denver, CO'),
-(108, 320.00, '2024-10-01 11:40:00', 'completed', 'purchase', 'credit_card', 'USD', 208, 'Philadelphia, PA'),
-(109, 29.99, '2024-10-01 11:45:00', 'completed', 'purchase', 'debit_card', 'USD', 209, 'Austin, TX'),
-(112, 760.00, '2024-10-01 11:50:00', 'failed', 'purchase', 'credit_card', 'USD', 211, 'Atlanta, GA'),
-(101, 175.50, '2024-10-01 12:00:00', 'completed', 'purchase', 'paypal', 'USD', 201, 'New York, NY'),
-(105, 850.00, '2024-10-01 12:05:00', 'failed', 'purchase', 'credit_card', 'USD', 205, 'Seattle, WA'),
-(104, 300.00, '2024-10-01 12:10:00', 'completed', 'purchase', 'debit_card', 'USD', 204, 'San Francisco, CA'),
-(102, 60.00, '2024-10-01 12:15:00', 'completed', 'refund', 'paypal', 'USD', 202, 'Los Angeles, CA'),
-(106, 430.00, '2024-10-01 12:20:00', 'completed', 'withdrawal', 'credit_card', 'USD', 206, 'Miami, FL');
 
-
---CREATE TABLE fraud_alerts (
---    alert_id SERIAL PRIMARY KEY,
---    transaction_id INTEGER REFERENCES transactions(transaction_id),
---    alert_level VARCHAR(20),
---    alert_message TEXT,
---    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
---);
+INSERT INTO transactions (transaction_datetime,merchant,category,amount,latitude,longitude,merchant_latitude,merchant_longitude,currency,user_id) VALUES
+('2019-01-01 00:00:44','Heller, Gutmann and Zieme','grocery_pos',107.23,48.8878,-118.2105,49.159047,-118.186462,'USD',115),
+('2019-01-01 00:00:51','Lind-Buckridge','entertainment',220.11,42.1808,-112.262,43.150704,-112.154481,'USD',115),
+('2019-01-01 00:07:27','Kiehn Inc','grocery_pos',96.29,41.6125,-122.5258,41.65752,-122.230347,'USD',120),
+('2019-01-01 00:09:03','Beier-Hyatt','shopping_pos',7.77,32.9396,-105.8189,32.863258,-106.520205,'USD',105),
+('2019-01-01 00:21:32','Bruen-Yost','misc_pos',6.85,43.0172,-111.0292,43.753735,-111.454923,'USD',109),
+('2019-01-01 00:22:06','Kunze Inc','grocery_pos',90.22,20.0827,-155.488,19.560013,-156.045889,'USD',114),
+('2019-01-01 00:22:18','Nitzsche, Kessler and Wol','shopping_pos',4.02,42.8062,-100.6215,42.47559,-101.265846,'USD',115);
