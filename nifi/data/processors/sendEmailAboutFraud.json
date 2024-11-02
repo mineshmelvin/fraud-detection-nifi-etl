@@ -307,7 +307,7 @@
           "sasl.username": null,
           "max.poll.records": "10000",
           "group.id": "frauds_alerting",
-          "bootstrap.servers": "172.22.72.148:9092",
+          "bootstrap.servers": "kafka:9092",
           "aws.profile.name": null,
           "topic_type": "names",
           "sasl.kerberos.principal": null,

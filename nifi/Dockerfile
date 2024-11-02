@@ -8,6 +8,7 @@ RUN curl -L -o /opt/nifi/nifi-current/lib/postgresql-jdbc.jar https://jdbc.postg
 COPY nifi.properties /opt/nifi/nifi-current/conf/nifi.properties
 COPY nifi.properties /opt/nifi/conf/nifi.properties
 COPY data/processors/combineUsersAndTransactions.json /opt/nifi/conf/combineUsersAndTransactions.json
+COPY data/processors/sendEmailAboutFraud.json /opt/nifi/conf/sendEmailAboutFraud.json
 COPY ./scripts/import-flow.sh /opt/nifi/scripts/import-flow.sh
 COPY ./scripts/setup.sh /opt/nifi/scripts/setup.sh
 
@@ -15,7 +16,7 @@ COPY ./scripts/setup.sh /opt/nifi/scripts/setup.sh
 ENV POSTGRES_HOST postgres
 ENV POSTGRES_PORT 5432
 ENV POSTGRES_DB the_melvin_bank_db
-ENV POSTGRES_USER admin
+ENV POSTGRES_USER postgres
 ENV POSTGRES_PASSWORD adminpassword
 
 # Custom setup script
@@ -39,4 +40,4 @@ EXPOSE 8080 8443
 # Start NiFi service
 # RUN /opt/nifi/nifi-current/bin/nifi.sh start
 #ENTRYPOINT ["bash", "-c", "/opt/nifi/nifi-current/bin/nifi.sh run "]
-ENTRYPOINT ["bash", "-c", "/opt/nifi/scripts/setup.sh && for i in {150. .1}; do echo \"$i\"; sleep 1; done && /opt/nifi/scripts/import-flow.sh"]
+ENTRYPOINT ["bash", "-c", "/opt/nifi/scripts/setup.sh && for i in {150..1}; do echo \"$i\"; sleep 1; done && /opt/nifi/scripts/import-flow.sh"]

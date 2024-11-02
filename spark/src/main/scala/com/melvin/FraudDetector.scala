@@ -13,13 +13,14 @@ object FraudDetector {
   def main(args: Array[String]): Unit = {
     implicit val spark: SparkSession = SparkSession.builder
       .master("local[*]")
+      .config("spark.cassandra.connection.host", "cassandra")
       .appName("Real-time Fraud Detection")
       .getOrCreate()
 
     import spark.implicits._
     spark.sparkContext.setLogLevel("WARN")
 
-    val KAFKA_SERVERS = "172.22.72.148:9092"
+    val KAFKA_SERVERS = "kafka:9093"
     val INPUT_KAFKA_TOPIC = "transactions"
     val OUTPUT_FRAUD_KAFKA_TOPIC = "fraud_alerts"
     val OUTPUT_PROCESSED__KAFKA_TOPIC = "processed_transactions"
@@ -45,8 +46,8 @@ object FraudDetector {
     val fraudTransactions = requiredDF.where($"is_fraud" === 1)
 
     // Write flagged transactions to Kafka for real-time monitoring
-    writeToKafka(fraudTransactions, KAFKA_SERVERS, OUTPUT_FRAUD_KAFKA_TOPIC, "flagging")
     writeToKafka(requiredDF, KAFKA_SERVERS, OUTPUT_PROCESSED__KAFKA_TOPIC, "fraud_detection")
+    writeToKafka(fraudTransactions, KAFKA_SERVERS, OUTPUT_FRAUD_KAFKA_TOPIC, "flagging")
 
     // Write flagged transactions to Cassandra
     writeToCassandra(fraudTransactions, FLAGGED_KEYSPACE, FLAGGED_TABLE)

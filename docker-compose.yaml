@@ -49,6 +49,7 @@ services:
     image: bitnami/kafka:latest
     ports:
       - "9092:9092"
+      - "9093:9093"
     environment:
       KAFKA_ADVERTISED_LISTENERS: INSIDE://localhost:9092,OUTSIDE://kafka:9093
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INSIDE:PLAINTEXT,OUTSIDE:PLAINTEXT
@@ -100,12 +101,13 @@ services:
       - SPARK_MASTER_HOST=spark
     ports:
       - "7077:7077"
+      - "4040:4040"
     depends_on:
-      - kafka
-      - postgres
+      - kafka-setup
+      - cassandra
     volumes:
       - ./spark:/app
-    command: [ "/entrypoint.sh" ]
+#    command: [ "/entrypoint.sh" ]
     networks:
       - fraud_detection_net
 

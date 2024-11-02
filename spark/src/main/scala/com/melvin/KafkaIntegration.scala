@@ -21,6 +21,7 @@ object KafkaIntegration {
     .add("user_id", IntegerType)
 
   def readFromKafka(kafka_servers: String, topic: String)(implicit spark: SparkSession): DataFrame = {
+    println(s"Reading from server: $kafka_servers")
     val transactionsDF = spark.readStream
       .format("kafka")
       .option("kafka.bootstrap.servers", kafka_servers)
@@ -44,7 +45,7 @@ object KafkaIntegration {
       .format("kafka")
       .option("kafka.bootstrap.servers", bootstrapServers)
       .option("topic", topic)
-      .option("checkpointLocation", "spark_checkpoint")
+      .option("checkpointLocation", "/home/spark_checkpoint")
       .outputMode("append")
       .queryName(query_name)
       .trigger(Trigger.ProcessingTime("5 seconds"))
