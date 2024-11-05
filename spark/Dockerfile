@@ -10,7 +10,6 @@ WORKDIR /app
 
 # Copy application files and download dependencies
 COPY . /app/
-RUN mvn dependency:go-offline
 
 # Run the Maven build and model training profile
 RUN mvn clean install -Ptrain-model
@@ -26,5 +25,5 @@ COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
 # Set the entrypoint
-ENTRYPOINT ["/entrypoint.sh"]
-#ENTRYPOINT ["bash", "-c", "for i in {1500..1}; do echo \"$i\"; sleep 1; done "]
+#ENTRYPOINT ["/entrypoint.sh"]
+ENTRYPOINT ["bash", "-c", "for i in {1500..1}; do echo \"$i\"; sleep 1; done "]

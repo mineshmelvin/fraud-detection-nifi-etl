@@ -40,4 +40,9 @@ EXPOSE 8080 8443
 # Start NiFi service
 # RUN /opt/nifi/nifi-current/bin/nifi.sh start
 #ENTRYPOINT ["bash", "-c", "/opt/nifi/nifi-current/bin/nifi.sh run "]
-ENTRYPOINT ["bash", "-c", "/opt/nifi/scripts/setup.sh && for i in {150..1}; do echo \"$i\"; sleep 1; done && /opt/nifi/scripts/import-flow.sh"]
+#ENTRYPOINT ["/bin/bash", "-c", "/opt/nifi/scripts/setup.sh && \
+#    for i in {150..1}; do echo \"$i\"; sleep 1; done && \
+#    /opt/nifi/scripts/import-flow.sh && \
+#    /opt/nifi/nifi-current/bin/nifi.sh run && \
+#    tail -f /dev/null"]
+ENTRYPOINT ["bash", "-c", "/opt/nifi/scripts/setup.sh"]

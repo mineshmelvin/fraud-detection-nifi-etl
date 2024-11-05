@@ -9,5 +9,18 @@ fi
 # Link properties file if needed
 ln -sf /opt/nifi/nifi-current/conf/nifi.properties /opt/nifi/nifi-current/properties
 
-echo "NiFi setup complete. Starting NiFi..."
-exec /opt/nifi/nifi-current/bin/nifi.sh start
+# Start Nifi
+/opt/nifi/nifi-current/bin/nifi.sh start
+
+# Wait for Nifi to start
+for i in {250..1}; do
+  echo "$i";
+  sleep 1
+done
+
+/opt/nifi/scripts/import-flow.sh
+#/opt/nifi/nifi-current/bin/nifi.sh run && \
+exec tail -f /dev/null
+
+# Run NiFi in the foreground to keep the container alive
+#exec /opt/nifi/nifi-current/bin/nifi.sh run

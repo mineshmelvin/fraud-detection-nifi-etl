@@ -80,7 +80,7 @@ def add_user():
 def add_transaction():
     data = request.get_json()
 
-    local_timezone = pytz.timezone('India/Kolkata')
+    local_timezone = pytz.timezone('Asia/Calcutta')
     utc_now = datetime.now(pytz.utc)
 
     transaction_datetime = utc_now.astimezone(local_timezone).strftime('%Y-%m-%d %H:%M:%S')
@@ -89,8 +89,8 @@ def add_transaction():
     amount = data['amount']
     latitude = data['latitude']
     longitude = data['longitude']
-    merchant_latitude = data['merchant_latitude']
-    merchant_longitude = data['merchant_longitude']
+    merchant_latitude = data['mlatitude']
+    merchant_longitude = data['mlongitude']
     currency = data['currency']
     user_id = data['user_id']
 

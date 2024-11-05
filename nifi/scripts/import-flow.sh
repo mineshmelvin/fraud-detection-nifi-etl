@@ -6,6 +6,7 @@ process_group_id=$(curl -s http://localhost:8080/nifi-api/flow/process-groups/ro
 # Use the captured ID in the next command
 echo "Captured process group ID: $process_group_id"
 
+echo "Starting the combineUsersAndTransactions processor"
 curl --location "http://localhost:8080/nifi-api/process-groups/$process_group_id/process-groups/upload" \
 --header 'Content-Type: multipart/form-data' \
 --form 'positionX="11.0"' \
@@ -16,6 +17,7 @@ curl --location "http://localhost:8080/nifi-api/process-groups/$process_group_id
 --form 'file=@"/opt/nifi/conf/combineUsersAndTransactions.json"' \
 --insecure
 
+echo "Starting the sendEmailAboutFraud processor"
 curl --location "http://localhost:8080/nifi-api/process-groups/$process_group_id/process-groups/upload" \
 --header 'Content-Type: multipart/form-data' \
 --form 'positionX="300.0"' \
@@ -26,9 +28,8 @@ curl --location "http://localhost:8080/nifi-api/process-groups/$process_group_id
 --form 'file=@"/opt/nifi/conf/sendEmailAboutFraud.json"' \
 --insecure
 
-# Get the list of all controller services
+echo "Getting the list of all controller services"
 services=$(curl -s -X GET http://localhost:8080/nifi-api/resources | jq -r '.resources[] | select(.identifier | startswith("/controller-services/")) | .identifier | split("/") | .[-1]')
-
 echo $services
 
 # Loop through each service and start it
@@ -44,14 +45,18 @@ echo "All controller services have been started."
 
 # Get the process id of our process group
 ETL_PROCESS_GROUP_NAME="combineUsersAndTransactions"
-ETL_PROCESS_GROUP_ID=$(curl -s -X GET http://localhost:8080/nifi-api/process-groups/root/process-groups | jq -r --arg NAME "$PROCESS_GROUP_NAME" '.processGroups[] | select(.component.name == $NAME) | .id')
+ETL_PROCESS_GROUP_ID=$(curl -s -X GET http://localhost:8080/nifi-api/process-groups/root/process-groups | jq -r --arg NAME "$ETL_PROCESS_GROUP_NAME" '.processGroups[] | select(.component.name == $NAME) | .id')
 
 ALERT_PROCESS_GROUP_NAME="sendEmailAboutFraud"
-ALERT_PROCESS_GROUP_ID=$(curl -s -X GET http://localhost:8080/nifi-api/process-groups/root/process-groups | jq -r --arg NAME "$PROCESS_GROUP_NAME" '.processGroups[] | select(.component.name == $NAME) | .id')
+ALERT_PROCESS_GROUP_ID=$(curl -s -X GET http://localhost:8080/nifi-api/process-groups/root/process-groups | jq -r --arg NAME "$ALERT_PROCESS_GROUP_NAME" '.processGroups[] | select(.component.name == $NAME) | .id')
 
 # Get the list of all processors in the specified process group
-etl_processors=$(curl -s -X GET http://localhost:8080/nifi-api/process-groups/"$ETL_PROCESS_GROUP_ID" | jq -c '.processGroupFlow.flow.processors[].id')
-alert_processors=$(curl -s -X GET http://localhost:8080/nifi-api/process-groups/"$ALERT_PROCESS_GROUP_ID" | jq -c '.processGroupFlow.flow.processors[].id')
+etl_processors=$(curl -s -X GET http://localhost:8080/nifi-api/process-groups/"$ETL_PROCESS_GROUP_ID"/processors | jq -r '.processors[] | .id')
+echo "ETL processors are:"
+echo "$etl_processors"
+alert_processors=$(curl -s -X GET http://localhost:8080/nifi-api/process-groups/"$ALERT_PROCESS_GROUP_ID"/processors | jq -r '.processors[] | .id')
+echo "Alert processors are:"
+echo "$alert_processors"
 
 # Loop through each processor and start it
 for processor in $etl_processors; do

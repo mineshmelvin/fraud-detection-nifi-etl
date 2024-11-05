@@ -14,6 +14,8 @@ object FraudDetector {
     implicit val spark: SparkSession = SparkSession.builder
       .master("local[*]")
       .config("spark.cassandra.connection.host", "cassandra")
+      .config("spark.cassandra.auth.username", "cassandra")
+      .config("spark.cassandra.auth.password", "cassandra")
       .appName("Real-time Fraud Detection")
       .getOrCreate()
 
@@ -43,14 +45,15 @@ object FraudDetector {
       .select("transaction_id", "transaction_datetime", "merchant", "category", "amount", "latitude",
                   "longitude", "merchant_latitude", "merchant_longitude", "currency", "user_id", "is_fraud")
 
-    val fraudTransactions = requiredDF.where($"is_fraud" === 1)
+    val fraudTransactions = scoredDF.where($"is_fraud" === 1)
+      .select("transaction_id", "transaction_datetime", "merchant", "username", "amount", "currency", "user_id", "is_fraud", "email", "phone")
 
     // Write flagged transactions to Kafka for real-time monitoring
     writeToKafka(requiredDF, KAFKA_SERVERS, OUTPUT_PROCESSED__KAFKA_TOPIC, "fraud_detection")
     writeToKafka(fraudTransactions, KAFKA_SERVERS, OUTPUT_FRAUD_KAFKA_TOPIC, "flagging")
 
     // Write flagged transactions to Cassandra
-    writeToCassandra(fraudTransactions, FLAGGED_KEYSPACE, FLAGGED_TABLE)
+    writeToCassandra(requiredDF, FLAGGED_KEYSPACE, FLAGGED_TABLE)
 
     // Await termination
     spark.streams.active.foreach(query => {

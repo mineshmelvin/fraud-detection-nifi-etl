@@ -21,13 +21,19 @@ services:
     image: bitnami/cassandra:latest
     container_name: cassandra
     environment:
+      - DB_HOST=cassandra
       - CASSANDRA_ENABLE_REMOTE_CONNECTIONS=true
+      - CASSANDRA_CLUSTER_NAME=cassnadra
+      - CASSANDRA_LISTEN_ADDRESS=cassandra
+      - CASSANDRA_BROADCAST_ADDRESS=cassandra
+      - CASSANDRA_RPC_ADDRESS=0.0.0.0
+      - CASSANDRA_BROADCAST_RPC_ADDRESS=cassandra
     ports:
       - "9042:9042"
     volumes:
       - ./cassandra/new_credit_card_fraud.csv:/home/new_credit_card_fraud.csv
-      - ./cassandra/init.cql:/home/init.cql
-#      - ./cassandra/init.cql:/docker-entrypoint-initdb.d/init.cql
+#      - ./cassandra/init.cql:/home/init.cql
+      - ./cassandra/init.cql:/docker-entrypoint-initdb.d/init.cql
     networks:
       - fraud_detection_net
 
@@ -107,6 +113,7 @@ services:
       - cassandra
     volumes:
       - ./spark:/app
+      - ./python2.7/cqlsh-5.1.34:/app/cqlsh
 #    command: [ "/entrypoint.sh" ]
     networks:
       - fraud_detection_net
@@ -121,12 +128,12 @@ services:
     volumes:
       - ./grafana/dashboards:/var/lib/grafana/dashboards
       - ./grafana/provisioning:/etc/grafana/provisioning
-#    depends_on:
-#      - cassandra
+    depends_on:
+      - cassandra
     networks:
       - fraud_detection_net
 
-  flask-app:
+  webpage:
     image: python:3.9-slim
     volumes:
       - ./frontend:/app
@@ -153,10 +160,10 @@ services:
     networks:
       - fraud_detection_net
 
+
 networks:
   fraud_detection_net:
     driver: bridge
 
 volumes:
   postgres_data:
-  mongo_data:

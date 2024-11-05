@@ -1,5 +1,5 @@
 -- cassandra/init.cql
---CREATE USER 'admin' WITH PASSWORD 'password' SUPERUSER;
+--CREATE USER 'cassandra' WITH PASSWORD 'cassandra' SUPERUSER;
 CREATE KEYSPACE IF NOT EXISTS fraud_detection
 WITH REPLICATION = {'class': 'SimpleStrategy', 'replication_factor': 1};
 

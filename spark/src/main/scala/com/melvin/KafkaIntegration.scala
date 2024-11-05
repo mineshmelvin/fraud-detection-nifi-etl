@@ -19,6 +19,11 @@ object KafkaIntegration {
     .add("merchant_longitude", FloatType)
     .add("currency", IntegerType)
     .add("user_id", IntegerType)
+    .add("is_active", StringType)
+    .add("phone", StringType)
+    .add("email", StringType)
+    .add("last_login", StringType)
+    .add("username", StringType)
 
   def readFromKafka(kafka_servers: String, topic: String)(implicit spark: SparkSession): DataFrame = {
     println(s"Reading from server: $kafka_servers")
